@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Send HTTP requests from the browser — no install required." />
+    <title>API Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1 class="brand-title">API Console</h1>
+            <p class="brand-sub">Send requests like Postman — runs entirely in your browser.</p>
+          </div>
+        </div>
+        <p class="cors-note">
+          Browsers enforce <strong>CORS</strong>. If a server blocks cross-origin calls, use a proxy or hit APIs that allow your origin.
+        </p>
+      </header>
+
+      <main class="main">
+        <section class="panel request-panel" aria-label="Request">
+          <div class="request-line">
+            <label class="sr-only" for="method">HTTP method</label>
+            <select id="method" class="method-select" title="HTTP method">
+              <option>GET</option>
+              <option>POST</option>
+              <option>PUT</option>
+              <option>PATCH</option>
+              <option>DELETE</option>
+              <option>HEAD</option>
+              <option>OPTIONS</option>
+            </select>
+            <label class="sr-only" for="url">Request URL</label>
+            <input
+              id="url"
+              class="url-input"
+              type="url"
+              inputmode="url"
+              placeholder="https://api.example.com/v1/resource"
+              spellcheck="false"
+              autocomplete="off"
+            />
+            <button type="button" id="send-btn" class="btn btn-primary">Send</button>
+            <button type="button" id="cancel-btn" class="btn btn-ghost hidden" disabled>Cancel</button>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Request sections">
+            <button type="button" class="tab active" role="tab" aria-selected="true" data-tab="query">Query</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-tab="headers">Headers</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-tab="body">Body</button>
+          </div>
+
+          <div id="panel-query" class="tab-panel active" role="tabpanel">
+            <div class="panel-head">
+              <span class="panel-title">Query parameters</span>
+              <button type="button" class="btn btn-small btn-ghost" data-add-row="query">Add row</button>
+            </div>
+            <div class="kv-table" id="query-rows" data-kv="query"></div>
+          </div>
+
+          <div id="panel-headers" class="tab-panel" role="tabpanel" hidden>
+            <div class="panel-head">
+              <span class="panel-title">Headers</span>
+              <button type="button" class="btn btn-small btn-ghost" data-add-row="headers">Add row</button>
+            </div>
+            <div class="kv-table" id="header-rows" data-kv="headers"></div>
+          </div>
+
+          <div id="panel-body" class="tab-panel" role="tabpanel" hidden>
+            <div class="panel-head">
+              <span class="panel-title">Request body</span>
+              <span class="hint">Used for POST, PUT, PATCH, DELETE</span>
+            </div>
+            <textarea
+              id="body"
+              class="body-input"
+              placeholder='{"hello": "world"}'
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </section>
+
+        <section class="panel response-panel" aria-label="Response">
+          <div class="response-toolbar">
+            <div class="response-meta" id="response-meta">
+              <span class="pill muted">No response yet</span>
+            </div>
+            <div class="response-actions">
+              <label class="toggle">
+                <input type="checkbox" id="pretty-json" checked />
+                <span>Pretty JSON</span>
+              </label>
+              <button type="button" id="copy-response" class="btn btn-small btn-ghost" disabled>Copy body</button>
+            </div>
+          </div>
+          <div class="response-split">
+            <div class="response-block">
+              <h3 class="block-title">Status &amp; headers</h3>
+              <pre id="response-headers" class="mono-block empty">—</pre>
+            </div>
+            <div class="response-block response-block-grow">
+              <h3 class="block-title">Body</h3>
+              <pre id="response-body" class="mono-block mono-block-scroll empty">—</pre>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd> to send · Query and header rows with empty keys are ignored
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
